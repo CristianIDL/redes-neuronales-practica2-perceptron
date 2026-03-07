@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 
 # Función de activación escalón
@@ -12,13 +13,52 @@ def imprimir_actual(w,b,a):
     print("b =", b)
     print("a =", a)
     
-def perceptron(x,w,b,t,a=0.5):
+def visualizar_iteracion(x,w,b,t,epoca,iteracion,titulo=""):
+    '''Visualiza la iteración actual del perceptrón.'''
+    fig, ax = plt.subplots(figsize=(6,6))
+
+    # Graficamos las entradas
+    class_0 = x[t.flatten() == 0]
+    class_1 = x[t.flatten() == 1]
+
+    ax.scatter(class_0[:, 0], class_0[:, 1], color='red', label='Clase 0')
+    ax.scatter(class_1[:, 0], class_1[:, 1], color='blue', label='Clase 1')
+
+    # Configuramos el espacio de decisión
+    ax.set_xlim(-0.5, 1.5)
+    ax.set_ylim(-0.5, 1.5)
+
+    # Aplicamos estilo al gráfico
+    ax.grid(True, alpha=0.3)
+
+    # Dibujamos los ejes
+    ax.axhline(0, color='black', lw=0.5)
+    ax.axvline(0, color='black', lw=0.5)
+
+    ax.set_title(f'Época {epoca}, Iteración {iteracion}')
+    ax.set_xlabel('x1')
+    ax.set_ylabel('x2')
+    ax.legend()
+
+    plt.tight_layout()
+    plt.show(block=False)
+    plt.pause(0.5)
+    plt.close()
+
+def perceptron(x,w,b,t,a=0.5,epoca=0):
+    # Definimos el número de iteraciones para la época actual
+    iteracion = 0
     imprimir_actual(w,b,a)
+    
     # Calculamos la salida del perceptrón para cada entrada
     for i in range(len(x)):
+        # Incrementamos el contador de iteraciones
+        iteracion += 1
+
         # Calculamos la suma ponderada de las entradas
         z = np.dot(x[i],w) + b
         print(f"\tz[{i}] = {x[i]}*{w} + {b} = {z:.2f}")
+
         # Aplicamos la función de activación escalón
         z_i = escalon(z)
         print(f"\tescalón(z[{i}]) = {z_i}")
@@ -32,6 +72,7 @@ def perceptron(x,w,b,t,a=0.5):
             b = reajustar_bias(b, a, e)
             print(f"Reajustamos pesos:")
             imprimir_actual(w,b,a)
+            visualizar_iteracion(x,w,b,t,epoca,iteracion,f"Iteración {iteracion}")
     
     return w,b,a
 
@@ -70,13 +111,11 @@ def main():
 
     convergencia = False
 
-    i = 1
-    for i in range(1, 11):
+    for i in range(1, 7):
         print(f"\n ===  Época {i} ===")
-        w, b, a = perceptron(x,w,b,t_XOR2,a)
+        w, b, a = perceptron(x,w,b,t_AND,a,epoca=i)
         print(f"Pesos y bias después de la época {i}:")
         imprimir_actual(w,b,a)
-
 
 if __name__ == "__main__":
     main()
