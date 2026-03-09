@@ -15,8 +15,6 @@ def cargar_datos():
     # Cargamos los datos del conjunto de datos Iris
     X = X[:, [0, 2]]  # Seleccionamos solo las columnas de sepal_length y petal_length
 
-    print(X.shape)  # Debería mostrar (150, 2)
-
     return X, y
 
 def main():
