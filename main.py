@@ -31,9 +31,12 @@ def main():
 
     for i in range(1, 7):
         print(f"\n ===  Época {i} ===")
-        w, b, a = perceptron(x,w,b,t_AND,a,epoca=i)
+        w, b, a, convergencia = perceptron(x,w,b,t_AND,convergencia,a,epoca=i)
         print(f"Pesos y bias después de la época {i}:")
         imprimir_actual(w,b,a)
+        if(convergencia):
+            print(f"\nConvergencia alcanzadaa al final de la época {i}")
+            break
 
 if __name__ == "__main__":
     main()

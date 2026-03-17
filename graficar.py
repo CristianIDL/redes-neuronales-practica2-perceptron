@@ -34,11 +34,11 @@ def visualizar_iteracion(x,w,b,t,epoca,iteracion,titulo=""):
                color='blue', marker='o', label='Clase 1')
 
     # Dibujamos la frontera de decisión
-    frontera_decision(ax, w, b, x_range=[-0.5, 1.5])
+    frontera_decision(ax, w, b, x_range=[0, 8])
 
     # Configuramos el espacio de decisión
-    ax.set_xlim(-0.5, 1.5)
-    ax.set_ylim(-0.5, 1.5)
+    ax.set_xlim(0, 8)
+    ax.set_ylim(0, 8)
 
     # Aplicamos estilo al gráfico
     ax.grid(True, alpha=0.3)

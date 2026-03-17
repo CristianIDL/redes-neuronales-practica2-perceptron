@@ -17,9 +17,11 @@ def imprimir_actual(w,b,a):
     print("b =", b)
     print("a =", a)
 
-def perceptron(x,w,b,t,a=0.5,epoca=0):
+def perceptron(x,w,b,t,convergencia,a=0.5,epoca=0):
     # Definimos el número de iteraciones para la época actual
     iteracion = 0
+    convergencia = True  # Asumimos convergencia hasta que se demuestre lo contrario
+
     imprimir_actual(w,b,a)
     
     # Calculamos la salida del perceptrón para cada entrada
@@ -36,6 +38,7 @@ def perceptron(x,w,b,t,a=0.5,epoca=0):
         print(f"\tescalón(z[{i}]) = {z_i}")
 
         if z_i != t[i][0]:
+            convergencia = False
             # Calculamos el error
             print(f"\t{z_i} != {t[i][0]}\tSalida incorrecta para x[{i}]")      
             e = t[i][0] - z_i 
@@ -45,8 +48,8 @@ def perceptron(x,w,b,t,a=0.5,epoca=0):
             print(f"Reajustamos pesos:")
             imprimir_actual(w,b,a)
             visualizar_iteracion(x,w,b,t,epoca,iteracion,f"Iteración {iteracion}")
-    
-    return w,b,a
+
+    return w,b,a,convergencia
 
 # Numpy tiene la ventaja del broadcasting, 
 # Permitiendo realizar operaciones entre arrays y escalare rápidamente.
